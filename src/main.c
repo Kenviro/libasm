@@ -4,6 +4,7 @@ void test_ft_strlen();
 void test_ft_strcpy();
 void test_ft_strcmp();
 void test_ft_write();
+void test_ft_read();
 
 int main()
 {
@@ -18,6 +19,9 @@ int main()
 
     printf("\n\n|| test ft_write ||\n");
     test_ft_write();
+
+    printf("\n\n|| test ft_read ||\n");
+    test_ft_read();
 
     return 0;
 }
