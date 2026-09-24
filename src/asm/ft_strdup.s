@@ -19,7 +19,6 @@ ft_strdup:
 	je .error
 	pop rdi
 	xor rdx, rdx
-	jmp .copy
 .copy:
 	cmp byte [rdi + rdx], 0
 	je .end
