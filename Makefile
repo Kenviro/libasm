@@ -11,10 +11,10 @@ SRC_C		= src/main.c $(wildcard $(TEST_DIR)/*.c)
 OBJ_C		= $(SRC_C:.c=.o)
 
 NASM		= nasm
-NASMFLAGS	= -f elf64
+NASMFLAGS	= -f elf64 -g -F dwarf
 
 CC			= gcc
-CFLAGS		= -Wall -Wextra -Werror
+CFLAGS		= -Wall -Wextra -Werror -g
 
 AR			= ar
 ARFLAGS		= rcs

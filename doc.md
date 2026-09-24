@@ -11,9 +11,8 @@ the different arguments are stored in different register depending of their size
 |6|r9b|r9w|r9d|r9|
 
 every argument after the 6th are stored in the stack
-and remember we count only on with each size separetly:
-`void f(int n, int n1, int n2, int n3, char* s)``
-the int are stored in edi->esi->edx->ecx but `s` will be stored in rdi because it is the first 64bits variable
+the argument is stored in the proper sub register depending 
+is data size
 
 ## RETURN VALUE
 by convention the return value of a function is stored in the `rax` register
