@@ -22,46 +22,47 @@ check_size:
 	mov rax, 1
 
 check_char:
-	xor rbx, rbx
+	xor r8, r8
 .loop:
-	cmp byte [rdi + rbx], 0
+	cmp byte [rdi + r8], 0
 	je .end
-	cmp byte [rdi + rbx], 43 ; check if char is '+'
+	cmp byte [rdi + r8], 43 ; check if char is '+'
 	je .error
-	cmp byte [rdi + rbx], 45 ; check if char is '-'
+	cmp byte [rdi + r8], 45 ; check if char is '-'
 	je .error
-	cmp byte [rdi + rbx], 32 ; check if char is SPACE
+	cmp byte [rdi + r8], 32 ; check if char is SPACE
 	je .error
-	cmp byte [rdi + rbx], 7 ; check if less than '\a'
-	jl .error
-	cmp byte [rdi + rbx], 13 ; check if greater than '\r'
-	jg .error
-	inc rbx
-	jmp .loop
+	cmp byte [rdi + r8], 7 ; check if less than '\a'
+	jle .inc
+	cmp byte [rdi + r8], 13 ; check if greater than '\r'
+	jge .inc
 .error:
 	mov rax, 1
 	ret
+.inc:
+	inc r8
+	jmp .loop
 .end:
 	mov rax, 0
 	ret
 
 check_duplicate:
-	xor rbx, rbx
+	xor r8, r8
 .loop:
-	cmp byte [rdi + rbx], 0
+	cmp byte [rdi + r8], 0
 	je .end
-	mov rcx, rbx
+	mov rcx, r8
 	jmp .search
 .inc:
-	inc rbx
+	inc r8
 	jmp .loop
 .search:
-	inc ecx
+	inc rcx
 	cmp byte [rdi + rcx], 0
 	je .inc
 	movzx rdx, byte [rdi + rcx]
-	movzx rcx, byte [rdi + rbx]
-	cmp rdx, rcx
+	movzx rax, byte [rdi + r8]
+	cmp rdx, rax
 	je .error
 	jmp .search
 .error:
@@ -77,42 +78,80 @@ check_base:
 	call check_char
 	push rax
 	call check_size
-	pop rbx
-	or rax, rbx
-	pop rbx
-	or rax, rbx
+	pop r8
+	or rax, r8
+	pop r8
+	or rax, r8
 	ret
 
-ft_atoi_base:
-	push rdi
-	mov rdi, rsi
-	call check_base
-	cmp rax, 0
-	jne .error
-	mov rsi, rdi
-	pop rdi
-	call ft_strlen
-	mov rdx, rax
-	mov ecx, 1
-	xor rax, rax
-	jmp .loop
+sign:
+	mov rax, 1
 .loop:
-	cmp edx, 0
-	jl .end
-	cmp byte [rdi + rdx], 48 ; return if char is less than '0'
-	jl .end
-	cmp byte [rdi + rdx], 57 ; return if char is greater than '9'
-	jg .end
-	mov rbx, [rdi + rdx]
-	; need to search into rsi for the base
-	sub rbx, 48
-	imul rbx, rcx
-	add rax, rbx
-	dec rdx
-	imul rcx, rcx, 10
+	cmp byte [rdi], 45
+	je .minus
+.plus:
+	cmp byte [rdi], 43
+	jne .end
+	inc rdi
+	jmp .loop
+.minus:
+	imul rax, -1
+	inc rdi
+	jmp .loop
+.end:
+	ret
+
+index:
+	xor rax, rax
+.loop:
+	cmp byte [rsi + rax], 0
+	je .error
+	movzx rcx, byte [rdi]
+	movzx r9, byte [rsi + rax]
+	cmp r9, rcx
+	je .end
+	inc rax
 	jmp .loop
 .end:
 	ret
 .error:
+	mov rax, -1
+	ret
+
+ft_atoi_base:
+	cmp byte [rdi], 0
+	je .error
+	push rdi
+	mov rdi, rsi
+	call check_base
+	cmp rax, 0
+	jne .error_pop
+	call ft_strlen
+	mov rdx, rax
+	mov rsi, rdi
+	pop rdi
+	call sign
+	push rax
+	call index
+	xor r8, r8
+.loop:
+	cmp rax, -1
+	je .end
+	imul r8, rdx
+	add r8, rax
+	inc rdi
+	call index
+	jmp .loop
+.end:
+	pop rcx
+	mov rax, r8
+	imul rax, rcx
+	ret
+.error:
+	mov rax, 0
+	ret
+.error_pop:
+	mov rsi, rdi
+	pop rdi
 	mov rax, 0
 	ret

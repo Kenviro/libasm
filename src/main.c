@@ -6,6 +6,7 @@ void test_ft_strcmp();
 void test_ft_write();
 void test_ft_read();
 void test_ft_strdup();
+void test_ft_atoi_base();
 
 int main()
 {
@@ -26,6 +27,9 @@ int main()
 
     printf("\n\n|| test ft_strdup ||\n");
     test_ft_strdup();
+
+    printf("\n\n|| test ft_atoi_base ||\n");
+    test_ft_atoi_base();
 
     return 0;
 }
