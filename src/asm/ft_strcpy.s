@@ -11,6 +11,6 @@ ft_strcpy:
 	inc rax
 	jmp .loop
 .end:
-	mov [rdi + rax], 0
+	mov byte [rdi + rax], 0
 	lea rax, [rdi]
 	ret

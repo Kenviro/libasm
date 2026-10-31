@@ -27,7 +27,7 @@ ft_strdup:
 	inc rdx
 	jmp .copy
 .end:
-	mov [rax + rdx], 0
+	mov byte [rax + rdx], 0
 	ret
 .error:
 	ret
