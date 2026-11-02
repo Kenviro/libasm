@@ -5,12 +5,14 @@ section .text
 
 ft_list_push_front:
 	push rdi
+	push rsi
 	mov rdi, 16
 	call malloc wrt ..plt
-	cmp rax, 0
-	je .end
-	leaq rax, rsi
-	pop r8
-	leaq [rax + 8], [r8]
+	pop rsi
+	pop rdi
+	mov [rax], rsi		; new->data = data
+	mov rbx, [rdi]		; rbx = *begin (tete)
+	mov [rax + 8], rbx	; new->next = ancien begin
+	mov [rdi], rax		; begin = new setup nouvelle tete
 .end:
 	ret

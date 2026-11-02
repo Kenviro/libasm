@@ -7,29 +7,33 @@ void test_ft_write();
 void test_ft_read();
 void test_ft_strdup();
 void test_ft_atoi_base();
+void test_list_functions();
 
 int main()
 {
-    printf("|| test ft_strlen ||\n");
-    test_ft_strlen();
+	printf("|| test ft_strlen ||\n");
+	test_ft_strlen();
 
-    printf("\n\n|| test ft_strcpy ||\n");
-    test_ft_strcpy();
+	printf("\n\n|| test ft_strcpy ||\n");
+	test_ft_strcpy();
 
-    printf("\n\n|| test ft_strcmp ||\n");
-    test_ft_strcmp();
+	printf("\n\n|| test ft_strcmp ||\n");
+	test_ft_strcmp();
 
-    printf("\n\n|| test ft_write ||\n");
-    test_ft_write();
+	printf("\n\n|| test ft_write ||\n");
+	test_ft_write();
 
-    printf("\n\n|| test ft_read ||\n");
-    test_ft_read();
+	printf("\n\n|| test ft_read ||\n");
+	test_ft_read();
 
-    printf("\n\n|| test ft_strdup ||\n");
-    test_ft_strdup();
+	printf("\n\n|| test ft_strdup ||\n");
+	test_ft_strdup();
 
-    printf("\n\n|| test ft_atoi_base ||\n");
-    test_ft_atoi_base();
+	printf("\n\n|| test ft_atoi_base ||\n");
+	test_ft_atoi_base();
 
-    return 0;
+	printf("\n\n|| test list functions ||\n");
+	test_list_functions();
+
+	return 0;
 }
