@@ -12,9 +12,8 @@ ft_strlen:
 	ret
 
 check_size:
-	xor ebx, ebx
 	call ft_strlen
-	cmp ebx, 2
+	cmp rax, 2
 	jl .error
 	mov rax, 0
 	ret
@@ -95,7 +94,7 @@ sign:
 	inc rdi
 	jmp .loop
 .minus:
-	imul rax, -1
+	neg rax
 	inc rdi
 	jmp .loop
 .end:
