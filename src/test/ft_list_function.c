@@ -8,6 +8,12 @@ typedef struct s_list
 } t_list;
 
 void ft_list_push_front(t_list **list, void *data);
+unsigned int ft_list_size(t_list *begin_list);
+
+void print_size(t_list *list)
+{
+	printf("size of the list = %d\n\n", ft_list_size(list));
+}
 
 static void print_list(t_list **list)
 {
@@ -23,16 +29,21 @@ static void print_list(t_list **list)
 		printf("data = %s\n", (char *)tmp->data);
 		tmp = tmp->next;
 	}
+	printf("\n");
+
+	print_size(*list);
 }
 
 void test_list_functions()
 {
 	t_list *list = NULL;
 
+	print_size(list);
 	ft_list_push_front(&list, (void *)"bonjour");
+	printf("list->data = %s\n", (char *)list->data);
+	print_size(list);
 	ft_list_push_front(&list, (void *)"bonjour deux fois");
 	ft_list_push_front(&list, (void *)"au revoir");
 
-	printf("%p\n", list);
 	print_list(&list);
 }
