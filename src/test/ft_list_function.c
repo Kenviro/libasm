@@ -7,7 +7,10 @@ typedef struct s_list
 	struct s_list *next; // 64bits
 } t_list;
 
+int ft_strcmp(char *str1, char *str2);
+
 void ft_list_push_front(t_list **list, void *data);
+void ft_list_sort(t_list **begin_list, int (*cmp)());
 unsigned int ft_list_size(t_list *begin_list);
 
 void print_size(t_list *list)
@@ -45,5 +48,9 @@ void test_list_functions()
 	ft_list_push_front(&list, (void *)"bonjour deux fois");
 	ft_list_push_front(&list, (void *)"au revoir");
 
+	print_list(&list);
+
+	printf("sorting list...\n\n");
+	ft_list_sort(&list, ft_strcmp);
 	print_list(&list);
 }
