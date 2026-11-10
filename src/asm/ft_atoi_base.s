@@ -47,7 +47,7 @@ check_char:
 
 check_duplicate:
 	xor r8, r8
-.loop:
+.loop:							; first loop
 	cmp byte [rdi + r8], 0
 	je .end
 	mov rcx, r8
@@ -55,11 +55,11 @@ check_duplicate:
 .inc:
 	inc r8
 	jmp .loop
-.search:
+.search:						; second loop
 	inc rcx
 	cmp byte [rdi + rcx], 0
 	je .inc
-	movzx rdx, byte [rdi + rcx]
+	movzx rdx, byte [rdi + rcx]	; strcmp
 	movzx rax, byte [rdi + r8]
 	cmp rdx, rax
 	je .error
@@ -78,18 +78,18 @@ check_base:
 	push rax
 	call check_size
 	pop r8
-	or rax, r8
-	pop r8
+	or rax, r8				; apply or on every return to check
+	pop r8					; if one of them is zero
 	or rax, r8
 	ret
 
 sign:
 	mov rax, 1
 .loop:
-	cmp byte [rdi], 45
+	cmp byte [rdi], 45	; check if the char is a '-'
 	je .minus
 .plus:
-	cmp byte [rdi], 43
+	cmp byte [rdi], 43	; check if the char is a '+'
 	jne .end
 	inc rdi
 	jmp .loop
@@ -105,7 +105,7 @@ index:
 .loop:
 	cmp byte [rsi + rax], 0
 	je .error
-	movzx rcx, byte [rdi]
+	movzx rcx, byte [rdi]		; strcmp
 	movzx r9, byte [rsi + rax]
 	cmp r9, rcx
 	je .end
@@ -118,12 +118,12 @@ index:
 	ret
 
 ft_atoi_base:
-	cmp byte [rdi], 0
+	cmp byte [rdi], 0			; check for valid ptr
 	je .error
-	push rdi
+	push rdi					; setup arg for other fct
 	mov rdi, rsi
 	call check_base
-	cmp rax, 0
+	cmp rax, 0					; if the return is 0 error
 	jne .error_pop
 	call ft_strlen
 	mov rdx, rax
@@ -136,8 +136,8 @@ ft_atoi_base:
 .loop:
 	cmp rax, -1
 	je .end
-	imul r8, rdx
-	add r8, rax
+	imul r8, rdx	; mult the result by the size of the base
+	add r8, rax		; add the result of the index to the result
 	inc rdi
 	call index
 	jmp .loop

@@ -4,7 +4,7 @@ section .text
 	global ft_read
 
 ft_read:
-	mov rax, 0 
+	mov rax, 0						; setup the syscall
 	syscall
 	cmp rax, 0
 	jl .error
@@ -12,8 +12,8 @@ ft_read:
 .error:
 	neg rax
 	push rax
-	call __errno_location wrt ..plt
+	call __errno_location wrt ..plt ; call errno
 	pop rdx
-	mov [rax], edx
-	mov rax, -1
+	mov [rax], edx					; setup errno
+	mov rax, -1						; setup the return value
 	ret
